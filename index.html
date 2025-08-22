@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anmol Hater Club</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Comic+Neue:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #1e3c72, #2a5298, #7e57c2, #26a69a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            font-family: 'Comic Neue', cursive;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 4px solid #4a148c;
+        }
+        
+        .header h1 {
+            font-family: 'Bungee', cursive;
+            font-size: 2.5em;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #00bfa5;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 2em;
+            animation: spin 3s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .main-content {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            border: 4px solid #4a148c;
+            border-top: none;
+        }
+        
+        .input-section {
+            margin-bottom: 25px;
+        }
+        
+        .input-section label {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        
+        .mood-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .mood-btn {
+            background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+            border: 3px solid #01579b;
+            padding: 15px 20px;
+            font-size: 2em;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: all 0.3s;
+            box-shadow: 3px 3px 0px #01579b;
+        }
+        
+        .mood-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 6px 6px 0px #01579b;
+        }
+        
+        .mood-btn.selected {
+            background: linear-gradient(145deg, #7e57c2, #9575cd);
+            transform: scale(1.2);
+        }
+        
+        select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 3px solid #2e7d32;
+            border-radius: 10px;
+            background: #c8e6c9;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #1b5e20;
+        }
+        
+        .slider-container {
+            margin: 20px 0;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 15px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #4caf50, #29b6f6, #5c6bc0, #7b1fa2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #1a237e;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .slider-value {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #4a148c;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            background: #81c784;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid #2e7d32;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            background: #66bb6a;
+        }
+        
+        .checkbox-item input {
+            margin-right: 5px;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(145deg, #00acc1, #00838f);
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: 4px solid #004d40;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Bungee', cursive;
+            box-shadow: 5px 5px 0px #004d40;
+            transition: all 0.3s;
+            margin-top: 30px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 8px 8px 0px #004d40;
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+            box-shadow: 2px 2px 0px #004d40;
+        }
+        
+        .output-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(145deg, #b3e5fc, #81d4fa);
+            border-radius: 15px;
+            border: 3px solid #0277bd;
+            box-shadow: 4px 4px 0px #01579b;
+            display: none;
+        }
+        
+        .output-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .crime-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #4a148c;
+            margin-bottom: 20px;
+        }
+        
+        .crime-card h3 {
+            color: #4a148c;
+            font-family: 'Bungee', cursive;
+            margin-bottom: 10px;
+        }
+        
+        .dare-card {
+            background: linear-gradient(135deg, #ce93d8, #ba68c8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #4a148c;
+            margin-bottom: 20px;
+        }
+        
+        .dare-card h3 {
+            font-family: 'Bungee', cursive;
+            margin-bottom: 15px;
+        }
+        
+        .rating-display {
+            font-size: 2em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .meme-text {
+            font-family: 'Bungee', cursive;
+            font-size: 1.5em;
+            text-align: center;
+            color: #1a237e;
+            text-shadow: 2px 2px 0px #64b5f6;
+            margin: 20px 0;
+        }
+        
+        .gif-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .gif-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 3px solid #1a237e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="badge">😤</div>
+            <h1>ANMOL HATER CLUB</h1>
+            <p style="margin-top: 10px; font-size: 1.2em;">Official Venting Station™</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <label>How mad are you right now?</label>
+                <div class="mood-buttons">
+                    <button class="mood-btn" data-mood="annoyed">😒</button>
+                    <button class="mood-btn" data-mood="angry">😠</button>
+                    <button class="mood-btn" data-mood="furious">🤬</button>
+                    <button class="mood-btn" data-mood="rage">👹</button>
+                    <button class="mood-btn" data-mood="nuclear">☢️</button>
+                </div>
+            </div>
+            
+            <div class="input-section">
+                <label>What did Anmol do THIS time?</label>
+                <select id="offense">
+                    <option value="">Select the crime...</option>
+                    <option value="forgot">Forgot something AGAIN</option>
+                    <option value="late">Was late (shocking!)</option>
+                    <option value="messy">Left a mess somewhere</option>
+                    <option value="wrong">Was wrong but won't admit it</option>
+                    <option value="annoying">Being generally annoying</option>
+                    <option value="snoring">Snoring like a freight train</option>
+                    <option value="gaming">Too much gaming time</option>
+                    <option value="joke">Made a terrible dad joke</option>
+                    <option value="food">Ate my food without asking</option>
+                    <option value="listening">Selective hearing activated</option>
+                    <option value="romantic">Forgot to be romantic</option>
+                    <option value="chores">Avoided chores like the plague</option>
+                    <option value="phone">Phone addiction level 1000</option>
+                    <option value="bathroom">Left the toilet seat up AGAIN</option>
+                    <option value="clothes">Left dirty clothes everywhere</option>
+                    <option value="promise">Broke a promise</option>
+                    <option value="shopping">Forgot items from shopping list</option>
+                    <option value="anniversary">Forgot an important date</option>
+                    <option value="directions">Got us lost (refused to ask for help)</option>
+                    <option value="mansplaining">Mansplained something obvious</option>
+                    <option value="tv">Hogged the TV remote</option>
+                    <option value="friends">Chose friends over me</option>
+                    <option value="lazy">Peak laziness achieved</option>
+                    <option value="drunk">Got too drunk</option>
+                    <option value="flirting">Looked at someone too long</option>
+                    <option value="arguing">Started a pointless argument</option>
+                    <option value="mother">Took his mother's side</option>
+                    <option value="gift">Got a terrible gift</option>
+                    <option value="cooking">Ruined dinner</option>
+                    <option value="other">Crime too heinous to list</option>
+                </select>
+            </div>
+            
+            <div class="input-section">
+                <label>Severity Level: <span class="slider-value" id="severityValue">5</span>/10</label>
+                <div class="slider-container">
+                    <input type="range" min="1" max="10" value="5" class="slider" id="severity">
+                </div>
+            </div>
+            
+            <div class="input-section">
+                <label>Additional Punishments (select all that apply):</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="dishes">Dish duty
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="massage">Foot massage
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="couch">Couch night
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="shopping">Shopping trip
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="inlaws">Visit in-laws
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="romcom">Watch rom-coms
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="silent">Silent treatment
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="cooking">Cook all meals
+                    </label>
+                </div>
+            </div>
+            
+            <div class="input-section">
+                <label>Upload Anmol's photo for custom meme (optional):</label>
+                <input type="file" id="imageUpload" accept="image/*" style="
+                    width: 100%;
+                    padding: 10px;
+                    border: 3px solid #2e7d32;
+                    border-radius: 10px;
+                    background: #c8e6c9;
+                    font-family: 'Comic Neue', cursive;
+                    cursor: pointer;
+                    margin-top: 10px;
+                ">
+                <div id="imagePreview" style="margin-top: 15px; text-align: center;"></div>
+            </div>
+            
+            <div class="input-section">
+                <label>How should we roast him?</label>
+                <select id="roastType">
+                    <option value="meme">Generate a spicy meme</option>
+                    <option value="photomeme">Make meme with his photo</option>
+                    <option value="crime">Issue a crime card</option>
+                    <option value="rating">Give him a brutal rating</option>
+                    <option value="gif">Find the perfect reaction</option>
+                    <option value="certificate">Award of shame</option>
+                    <option value="dare">Make him do a dare</option>
+                    <option value="random">Surprise me!</option>
+                </select>
+            </div>
+            
+            <button class="generate-btn" onclick="generateContent()">
+                🔥 ROAST ANMOL 🔥
+            </button>
+            
+            <div class="output-section" id="output">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let selectedMood = null;
+        let uploadedImage = null;
+        
+        // Mood button selection
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedMood = this.dataset.mood;
+            });
+        });
+        
+        // Slider value update
+        document.getElementById('severity').addEventListener('input', function() {
+            document.getElementById('severityValue').textContent = this.value;
+        });
+        
+        // Image upload handling
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImage = event.target.result;
+                    document.getElementById('imagePreview').innerHTML = `
+                        <img src="${uploadedImage}" style="max-width: 200px; border-radius: 10px; border: 3px solid #2e7d32;">
+                        <p style="color: #2e7d32; margin-top: 10px;">Photo loaded! Ready to meme-ify Anmol 😈</p>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function getSelectedPunishments() {
+            const checkboxes = document.querySelectorAll('.checkbox-item input:checked');
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+        
+        function generateContent() {
+            const offense = document.getElementById('offense').value;
+            const severity = document.getElementById('severity').value;
+            const roastType = document.getElementById('roastType').value;
+            
+            if (!selectedMood || !offense) {
+                alert('Please select your mood and what Anmol did!');
+                return;
+            }
+            
+            const output = document.getElementById('output');
+            output.classList.add('show');
+            
+            // Generate content based on selections
+            const contents = {
+                meme: generateMeme(offense, severity, selectedMood),
+                photomeme: generatePhotoMeme(offense, severity, selectedMood),
+                crime: generateCrimeCard(offense, severity, selectedMood),
+                rating: generateRating(offense, severity, selectedMood),
+                gif: generateGif(offense, selectedMood),
+                certificate: generateCertificate(offense, severity),
+                dare: generateDare(offense, severity, selectedMood),
+                random: generateRandom(offense, severity, selectedMood)
+            };
+            
+            output.innerHTML = contents[roastType] || contents.random;
+        }
+        
+        function generateMeme(offense, severity, mood) {
+            const memes = {
+                forgot: [
+                    "Anmol's brain: Gone fishing since 1990",
+                    "Scientists study Anmol's memory... find nothing",
+                    "Breaking: Man forgets anniversary, remembers every cricket score",
+                    "Anmol's memory capacity: 3 items max (gaming passwords don't count)"
+                ],
+                late: [
+                    "Anmol's watch is just jewelry at this point",
+                    "Time exists. Anmol disagrees.",
+                    "Punctuality called. Anmol didn't answer.",
+                    "Even snails look at Anmol and say 'hurry up'"
+                ],
+                messy: [
+                    "Anmol's cleaning style: Wait for wife to explode",
+                    "Hurricane Anmol: Category 5 disaster",
+                    "Scientists discover new ecosystem in Anmol's mess",
+                    "Breaking: Local man allergic to cleaning products"
+                ],
+                wrong: [
+                    "Anmol's ego: Too big to fit through doors",
+                    "Wrong? Anmol? These words don't compute",
+                    "Studies show Anmol is wrong 99% of the time, disagrees with study",
+                    "Anmol's stubbornness could power a small city"
+                ],
+                annoying: [
+                    "Anmol: Professional wife irritator",
+                    "If annoying was an Olympic sport...",
+                    "Anmol's superpower: Finding that last nerve",
+                    "Warning: Anmol's presence may cause eye rolling"
+                ],
+                snoring: [
+                    "Anmol's snoring registered on the Richter scale",
+                    "Neighbors filed noise complaint... from next building",
+                    "NASA confirms: Anmol's snoring audible from space",
+                    "Local man's snoring mistaken for construction work"
+                ],
+                gaming: [
+                    "Anmol: Married to PlayStation, wife is side chick",
+                    "Gaming addiction level: Choosing pixels over wife",
+                    "Controller permanently fused to hands",
+                    "Real life graphics not good enough for Anmol"
+                ],
+                phone: [
+                    "Anmol's phone: The other woman",
+                    "Screen time: 25 hours a day",
+                    "Phone battery dies before attention span",
+                    "Anmol speaks fluent scroll, forgot English"
+                ],
+                romantic: [
+                    "Romance is dead. Anmol killed it.",
+                    "Anmol thinks Netflix IS the chill",
+                    "Last romantic gesture: 2019 (citation needed)",
+                    "Anmol's love language: Forgetting everything"
+                ],
+                lazy: [
+                    "Anmol's spirit animal: A sloth on vacation",
+                    "Laziness level: Making sloths look productive",
+                    "Anmol's workout routine: Avoiding responsibilities",
+                    "Breaking: Man too lazy to finish this sente..."
+                ]
+            };
+            
+            const offense_memes = memes[offense] || [
+                "Anmol's crime: Being himself",
+                "Existence is pain. Anmol is the cause.",
+                "Husband.exe has stopped working",
+                "404: Good husband not found"
+            ];
+            const selected = offense_memes[Math.floor(Math.random() * offense_memes.length)];
+            
+            return `
+                <div class="meme-text">${selected}</div>
+                <div class="gif-container">
+                    <img src="https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif" alt="reaction">
+                </div>
+                <p style="text-align: center; margin-top: 10px; font-style: italic;">
+                    Severity ${severity}/10: ${severity > 7 ? "Divorce lawyer on speed dial" : severity > 4 ? "Sleeping with one eye open tonight" : "Lucky it's not worse"}
+                </p>
+            `;
+        }
+        
+        function generatePhotoMeme(offense, severity, mood) {
+            if (!uploadedImage) {
+                return `
+                    <div style="text-align: center; padding: 20px;">
+                        <p style="font-size: 1.2em; color: #4a148c;">No photo uploaded! Please upload Anmol's photo first to create a custom meme.</p>
+                    </div>
+                `;
+            }
+            
+            const topTexts = {
+                forgot: ["WHEN HE SAYS HE'LL REMEMBER", "THIS MAN HAS THE MEMORY OF A GOLDFISH", "FORGOT AGAIN?"],
+                late: ["WHEN HE SAYS '5 MORE MINUTES'", "PUNCTUALITY LEFT THE CHAT", "STILL WAITING..."],
+                messy: ["CLEANING? NEVER HEARD OF IT", "WHEN HE SAYS HE'LL CLEAN UP", "MESS LEVEL: EXPERT"],
+                wrong: ["WRONG BUT WILL NEVER ADMIT IT", "EGO LEVEL: INFINITY", "ALWAYS RIGHT IN HIS MIND"],
+                annoying: ["PROFESSIONAL WIFE ANNOYER", "WHEN HE THINKS HE'S FUNNY", "TESTING MY PATIENCE SINCE DAY 1"],
+                gaming: ["MARRIED TO THE CONSOLE", "WHEN GAMING > WIFE", "CONTROLLER IS HIS TRUE LOVE"],
+                phone: ["PHONE ADDICTION LEVEL 1000", "SCROLLING > LISTENING", "CAN'T HEAR YOU OVER THE SCROLLING"],
+                lazy: ["ALLERGIC TO EFFORT", "LAZINESS ACHIEVEMENT UNLOCKED", "WHY DO TODAY WHAT YOU CAN IGNORE FOREVER"]
+            };
+            
+            const bottomTexts = {
+                forgot: ["SURPRISE LEVEL: ZERO", "CLASSIC ANMOL", "WIFE'S PATIENCE: DEPLETED"],
+                late: ["3 HOURS LATER...", "TIME IS JUST A SUGGESTION", "WIFE: NOT AMUSED"],
+                messy: ["WIFE'S EYE TWITCHING INTENSIFIES", "DIVORCE PAPERS LOADING...", "THIS IS WHY WE CAN'T HAVE NICE THINGS"],
+                wrong: ["NARRATOR: HE WAS WRONG", "FACT CHECK: FALSE", "WIFE: ALWAYS RIGHT"],
+                annoying: ["CURRENT STATUS: ANNOYED AF", "CONSIDERING MURDER", "PATIENCE HAS LEFT THE BUILDING"],
+                gaming: ["REAL LIFE: 404 NOT FOUND", "WIFE.EXE HAS STOPPED RESPONDING", "RELATIONSHIP STATUS: IT'S COMPLICATED"],
+                phone: ["HELLO? ANYONE HOME?", "LAST SEEN: PAYING ATTENTION NEVER", "WIFE CONTEMPLATING PHONE DESTRUCTION"],
+                lazy: ["PRODUCTIVITY: -100%", "COUCH PERMANENTLY IMPRINTED", "EVOLUTION GOING BACKWARDS"]
+            };
+            
+            const topText = (topTexts[offense] || ["WHEN YOUR HUSBAND"])[Math.floor(Math.random() * (topTexts[offense]?.length || 1))];
+            const bottomText = (bottomTexts[offense] || ["IS BEING HIMSELF"])[Math.floor(Math.random() * (bottomTexts[offense]?.length || 1))];
+            
+            return `
+                <div style="position: relative; display: inline-block; width: 100%; text-align: center;">
+                    <div style="position: relative; display: inline-block; max-width: 100%;">
+                        <img src="${uploadedImage}" style="width: 100%; max-width: 500px; display: block; border: 3px solid #1a237e;">
+                        <div style="
+                            position: absolute;
+                            top: 10px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 90%;
+                            text-align: center;
+                            font-family: 'Impact', 'Arial Black', sans-serif;
+                            font-size: 2em;
+                            color: white;
+                            text-shadow: 2px 2px 4px black, -2px -2px 4px black, 2px -2px 4px black, -2px 2px 4px black;
+                            text-transform: uppercase;
+                            font-weight: bold;
+                            letter-spacing: 1px;
+                        ">${topText}</div>
+                        <div style="
+                            position: absolute;
+                            bottom: 10px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 90%;
+                            text-align: center;
+                            font-family: 'Impact', 'Arial Black', sans-serif;
+                            font-size: 2em;
+                            color: white;
+                            text-shadow: 2px 2px 4px black, -2px -2px 4px black, 2px -2px 4px black, -2px 2px 4px black;
+                            text-transform: uppercase;
+                            font-weight: bold;
+                            letter-spacing: 1px;
+                        ">${bottomText}</div>
+                    </div>
+                    <p style="margin-top: 15px; font-style: italic;">
+                        Severity ${severity}/10: ${severity > 7 ? "RELATIONSHIP CRITICAL" : severity > 4 ? "PATIENCE WEARING THIN" : "MILDLY INFURIATING"}
+                    </p>
+                    <p style="margin-top: 10px; color: #4a148c; font-weight: bold;">
+                        Share this masterpiece with everyone! 📱
+                    </p>
+                </div>
+            `;
+        }
+        
+        function generateCrimeCard(offense, severity, mood) {
+            const selectedPunishments = getSelectedPunishments();
+            const punishmentText = selectedPunishments.length > 0 
+                ? selectedPunishments.join(', ') 
+                : 'To be determined by management';
+            
+            const additionalCharges = [
+                "Being a disappointment",
+                "Wasting wife's precious time",
+                "Testing wife's patience",
+                "General incompetence",
+                "Failure to adult properly"
+            ];
+            
+            return `
+                <div class="crime-card">
+                    <h3>⚠️ OFFICIAL VIOLATION NOTICE ⚠️</h3>
+                    <p><strong>Case #:</strong> ${Math.floor(Math.random() * 9999)}</p>
+                    <p><strong>Defendant:</strong> Anmol (repeat offender)</p>
+                    <p><strong>Primary Crime:</strong> ${document.getElementById('offense').selectedOptions[0].text}</p>
+                    <p><strong>Additional Charges:</strong> ${additionalCharges[Math.floor(Math.random() * additionalCharges.length)]}</p>
+                    <p><strong>Severity:</strong> ${severity}/10 (${severity > 7 ? 'RELATIONSHIP FELONY' : severity > 4 ? 'MARRIAGE MISDEMEANOR' : 'MINOR STUPIDITY'})</p>
+                    <p><strong>Wife's Mood:</strong> ${selectedMood.toUpperCase()} (approach with caution)</p>
+                    <p><strong>Sentence:</strong> ${punishmentText}</p>
+                    <p><strong>Parole:</strong> When wife decides you've suffered enough</p>
+                    <p style="margin-top: 15px; font-style: italic;">Signed: The Boss (Your Wife)</p>
+                    <p style="font-size: 0.9em;">Appeals will be ignored.</p>
+                </div>
+            `;
+        }
+        
+        function generateRating(offense, severity, mood) {
+            const stars = 10 - parseInt(severity);
+            const starDisplay = '⭐'.repeat(Math.max(0, stars)) + '💩'.repeat(Math.min(10, parseInt(severity)));
+            
+            const reviews = [
+                "0/10 - Would divorce if wasn't so much paperwork",
+                "Worst husband of the day award winner",
+                "Currently accepting applications for replacement",
+                "Product defective. No refunds available.",
+                "One star because zero isn't an option",
+                "Making ex-boyfriends look good since today",
+                "Performance review: FAILING",
+                "Considering trade-in options"
+            ];
+            
+            const categories = `
+                <div style="text-align: left; margin: 15px 0; font-size: 0.9em;">
+                    <p>Romance: ${'💔'.repeat(5)}</p>
+                    <p>Listening: ${'🙉'.repeat(5)}</p>
+                    <p>Helpfulness: ${'🚫'.repeat(5)}</p>
+                    <p>Memory: ${'🧠'.repeat(1)} (generous)</p>
+                    <p>Overall: ${starDisplay}</p>
+                </div>
+            `;
+            
+            return `
+                <div class="rating-display">
+                    <h3>Today's Husband Performance Review</h3>
+                    ${categories}
+                    <p style="font-size: 1em; margin-top: 20px;">"${reviews[Math.floor(Math.random() * reviews.length)]}"</p>
+                    <p style="margin-top: 10px;">- Management</p>
+                </div>
+            `;
+        }
+        
+        function generateDare(offense, severity, mood) {
+            const dares = {
+                mild: [
+                    "Post 'My wife is always right' on all social media",
+                    "Wear a 'World's Okayest Husband' shirt for a week",
+                    "Do a TikTok dance of wife's choosing",
+                    "Let wife post anything on your Instagram",
+                    "Sing an apology song in public",
+                    "Wear wife's choice of outfit for a day"
+                ],
+                medium: [
+                    "Stand outside with a sign saying 'I was wrong'",
+                    "Call your mom and admit wife is always right",
+                    "Do wife's skincare routine for a week",
+                    "Learn and perform wife's favorite song",
+                    "Write a 500-word essay on why wife is amazing",
+                    "Let wife give you a makeover (post pics)"
+                ],
+                spicy: [
+                    "Recreate your proposal but better this time",
+                    "Plan and execute perfect date (wife approves all details)",
+                    "Become wife's personal servant for 48 hours",
+                    "Public declaration of wife's superiority at mall",
+                    "Get a temporary tattoo saying 'Property of [Wife's name]'",
+                    "Create PowerPoint presentation on your failures"
+                ]
+            };
+            
+            let dareLevel = severity > 7 ? 'spicy' : severity > 4 ? 'medium' : 'mild';
+            const selectedDares = dares[dareLevel];
+            const dare = selectedDares[Math.floor(Math.random() * selectedDares.length)];
+            
+            return `
+                <div class="dare-card">
+                    <h3>🎯 MANDATORY DARE PUNISHMENT 🎯</h3>
+                    <p style="font-size: 1.3em; margin: 20px 0; font-weight: bold;">
+                        ${dare}
+                    </p>
+                    <p><strong>Deadline:</strong> Within 24 hours</p>
+                    <p><strong>Evidence required:</strong> Photo/video proof</p>
+                    <p><strong>Failure consequence:</strong> Punishment doubles</p>
+                    <p style="margin-top: 20px; font-style: italic;">
+                        No excuses. No negotiations. No mercy.
+                    </p>
+                </div>
+            `;
+        }
+        
+        function generateGif(offense, mood) {
+            const gifs = {
+                annoyed: "https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif",
+                angry: "https://media.giphy.com/media/l1J9u3TZfpmeDLkD6/giphy.gif", 
+                furious: "https://media.giphy.com/media/11tTNkNy1SdXGg/giphy.gif",
+                rage: "https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif",
+                nuclear: "https://media.giphy.com/media/xiMUwBRn5RDLhzwO80/giphy.gif"
+            };
+            
+            return `
+                <div class="gif-container">
+                    <h3>Current Wife Status:</h3>
+                    <img src="${gifs[mood] || gifs.annoyed}" alt="mood gif">
+                    <p style="margin-top: 10px;">Actual footage of me right now</p>
+                    <p style="font-style: italic;">Approach at your own risk</p>
+                </div>
+            `;
+        }
+        
+        function generateCertificate(offense, severity) {
+            const titles = [
+                "Worst Husband of the Day",
+                "Chief Disappointment Officer",
+                "Master of Irritation",
+                "Professional Wife Annoyer",
+                "Captain Clueless",
+                "Sir Screws-a-Lot"
+            ];
+            
+            return `
+                <div class="crime-card" style="text-align: center; background: linear-gradient(145deg, #90caf9, #64b5f6);">
+                    <h2 style="font-family: 'Bungee', cursive; color: #0d47a1;">🏆 HALL OF SHAME 🏆</h2>
+                    <p style="margin: 20px 0; font-size: 1.2em;">This certifies that</p>
+                    <h3 style="font-size: 2em; color: #1a237e;">ANMOL</h3>
+                    <p style="margin: 20px 0;">has earned the title of:</p>
+                    <p style="font-size: 1.5em; font-weight: bold; color: #4a148c;">
+                        "${titles[Math.floor(Math.random() * titles.length)]}"
+                    </p>
+                    <p style="margin: 20px 0;">For the achievement of:</p>
+                    <p style="font-size: 1.3em; font-weight: bold;">${document.getElementById('offense').selectedOptions[0].text}</p>
+                    <p style="margin: 20px 0;">With an impressive incompetence level of <strong>${severity}/10</strong></p>
+                    <p style="font-style: italic; margin-top: 20px;">Your wife deserves better! 🙄</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Valid until next screw-up (probably tomorrow)</p>
+                </div>
+            `;
+        }
+        
+        function generateRandom(offense, severity, mood) {
+            let options = [generateMeme, generateCrimeCard, generateRating, generateGif, generateCertificate, generateDare];
+            if (uploadedImage) {
+                options.push(generatePhotoMeme);
+            }
+            const selected = options[Math.floor(Math.random() * options.length)];
+            return selected(offense, severity, mood);
+        }
+    </script>
+</body>
+</html>
